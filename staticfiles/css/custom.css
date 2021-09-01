@@ -1,0 +1,53 @@
+.rate {
+    display: inline-block;
+    border: 0;
+}
+
+input {
+    display: none;
+}
+
+label {
+    float: right;
+}
+
+label:before {
+    display: inline-block;
+    font-size: 1.1rem;
+    padding: .3rem .2rem;
+    margin: 0;
+    cursor: pointer;
+    font-family: FontAwesome;
+    content: "\f005 ";
+}
+
+
+.half:before {
+    content: "\f089 ";
+    position: absolute;
+    padding-right: 0;
+}
+
+
+input:checked ~ label, label:hover, label:hover ~ label { color: #ffb503;  } 
+
+
+ input:checked + label:hover, input:checked ~ label:hover, input:checked ~  label:hover ~  label,
+ label:hover ~  input:checked ~  label { color: #cc9000;  } 
+
+ul.thumb {
+    margin: 0 auto;
+    padding: 0;
+    float: left;
+}
+ul.thumb li {
+    list-style: none;
+    margin: 10px;
+    display: inline-block;
+}
+
+ul.thumb li a img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid grey;
+}
