@@ -1,0 +1,15 @@
+
+{% if messages %}
+<ul class="messages p-0 text-center">
+    {% for message in messages %}
+        <li {% if message.tags %} class="alert alert-{{ message.tags }} list-unstyled" {% endif %} role="alert">
+            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
+    
+    

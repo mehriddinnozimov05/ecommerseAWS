@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="cache-control" content="max-age=604800" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>GreatKart | One of the Biggest Online Shopping Platform</title>
+        
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <link href="{% static 'images/favicon.ico' %}" rel="shortcut icon" type="image/x-icon">
+        <script src="{% static 'js/jquery-2.0.0.min.js'%}" type="text/javascript"></script>
+        <script src="{% static 'js/bootstrap.bundle.min.js'%}" type="text/javascript"></script>
+        <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'fonts/fontawesome/css/all.min.css'%}" type="text/css" rel="stylesheet">
+        <link href="{% static 'css/ui.css'%}" rel="stylesheet" type="text/css" />
+        {% block css %}{% endblock css %}
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+        <link href="{% static 'css/responsive.css'%}" rel="stylesheet" />
+        <script src="{% static 'js/script.js'%}" type="text/javascript"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=AUM5gEHYhBDQSvYffrJIaWRcm2Hz84D-1brH443_DCWJ1XJcKhvupD9RM8xYkCmUtNhQ7GJi6d8rkFnz&currency=USD"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+            });
+        </script>
+
+    </head>
+    <body>
+        {% include "includes/navbar.html" %}
+
+        {% block content %}{% endblock content %}
+
+        {% include "includes/footer.html" %}
+    </body>
+</html>

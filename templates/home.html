@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="section-intro padding-y-sm">
+	<div class="container">
+		<div class="intro-banner-wrap">
+			<img src="{% static 'images/banners/cover.jpg' %}" class="img-fluid rounded">
+		</div>
+	</div>
+</section>
+<section class="section-name padding-y-sm">
+	<div class="container">
+		<header class="section-heading">
+			<a href=".{% url 'store' %}" class="btn btn-outline-primary float-right">See all</a>
+			<h3 class="section-title">Popular products</h3>
+		</header>
+		<div class="row">
+			{% for product in products %}
+			<div class="col-md-3">
+				<div class="card card-product-grid">
+					<a href="{{ product.get_url }}" class="img-wrap"> <img src="{{ product.image.url }}"> </a>
+					<figcaption class="info-wrap">
+						<a href="{{ product.get_url }}" class="title">{{ product.prod_name }}</a>
+						<div class="mt-1 mb-1">
+							<span class="rating-star text-warning">
+								<i class="fas fa-star{% if product.avarage_review == 0.5 %}-half-alt {% endif %}"></i>
+								<i
+									class="fa{% if product.avarage_review < 1.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 1.5 %}-half-alt{% endif %}"></i>
+								<i
+									class="fa{% if product.avarage_review < 2.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 2.5 %}-half-alt{% endif %}"></i>
+								<i
+									class="fa{% if product.avarage_review < 3.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 3.5 %}-half-alt{% endif %}"></i>
+								<i
+									class="fa{% if product.avarage_review < 4.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 4.5 %}-half-alt{% endif %}"></i>
+							</span>
+						</div>
+						<div class="price mt-1">${{ product.price }}</div>
+					</figcaption>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+{% endblock content %}

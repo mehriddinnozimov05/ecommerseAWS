@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+    <link href="{% static 'css/custom.css'%}" rel="stylesheet" type="text/css" />
+{% endblock css %}
+    
+
+{% block content %}
+
+<section class="section-content padding-y bg">
+    <div class="container">
+        <div class="card">
+            <div class="row no-gutters">
+                <aside class="col-md-6">
+                    <article class="gallery-wrap">
+                        <div class="img-big-wrap main-image">
+                            <img src="{{ product_gallery.first.image.url }}">
+                        </div>
+                    </article>
+                    <ul class="thumb">
+                        {% for i in product_gallery %}
+                        <li><a href="{{i.image.url }}" target="main-image"><img src="{{i.image.url }}" alt="Product Image"></a></li>
+                        {% endfor %}
+                    </ul>
+                </aside>
+                <main class="col-md-6 border-left">
+                    <form action="{% url 'add_cart' product.id %}" method="POST"> {% csrf_token %}
+                        <article class="content-body">
+                            <h2 class="title">{{ product.prod_name }}</h2>
+                            <div class="mt-1 mb-1">
+                                <span class="rating-star text-warning">
+                                    <i class="fas fa-star{% if product.avarage_review == 0.5 %}-half-alt {% endif %}"></i>
+                                    <i
+                                        class="fa{% if product.avarage_review < 1.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 1.5 %}-half-alt{% endif %}"></i>
+                                    <i
+                                        class="fa{% if product.avarage_review < 2.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 2.5 %}-half-alt{% endif %}"></i>
+                                    <i
+                                        class="fa{% if product.avarage_review < 3.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 3.5 %}-half-alt{% endif %}"></i>
+                                    <i
+                                        class="fa{% if product.avarage_review < 4.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 4.5 %}-half-alt{% endif %}"></i>
+                                </span>
+                            </div>
+                            <span>{{ product.count_review }} reviews</span>
+                            <div class="mb-3 mt-1">
+                                <var class="price h4">${{ product.price }}</var>
+                            </div>
+                            <p>{{product.prod_description }}</p>
+                            <hr>
+                            <div class="row">
+                                <div class="item-option-select">
+                                    <h6>Choose Color</h6>
+                                    <select name="color" class="form-control" required>
+                                        <option value="" disabled selected>Select</option>
+                                        {% for i in product.variation_set.colors %}
+                                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="item-option-select">
+                                    <h6>Select Size</h6>
+                                    <select name="size" class="form-control" required>
+                                        <option value="" disabled selected>Select</option>
+                                        {% for i in product.variation_set.sizes %}
+                                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                            {% if product.stock < 1 %}
+                            <h6 class="h5 text-danger">Out of stock</h6>
+                            {% else %}
+                            <button class="btn  btn-primary"> <span class="text">Add to cart</span>
+                                <i class="fas fa-shopping-cart"></i> </button>
+                            {% endif %}
+                        </article>
+                    </form>
+                </main>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-9">
+
+                {% if user.is_authenticated and order_product %}
+                <form action="{% url 'submit_review' product.id %}" method="POST" class="form"> {% csrf_token %}
+                    <h5>Write Your Reviews</h5>
+                    <div>
+                        <p class="mb-0">How do yo rate this product?</p>
+                        <fieldset class="rate"></fieldset>
+                        <br>
+                        Review Title:
+                        <input type="text" name="subject" class="form-control">
+                        <br>
+                        Review:
+                        <textarea name="review" rows="4" class="form-control"></textarea>
+                        <br>
+                        <input type="submit" value="Submit Review" class="btn btn-primary">
+                    </div>
+                </form>
+                {% include 'includes/alerts.html' %}
+                {% else %}
+                {% if not order_product and user.is_authenticated %}
+                <p>You must purchase this product to post review</p>
+                {% else %}
+                <p>If you want to write a review of this product, <a href="{% url 'login' %}">SignUp</a> first</p>
+                {% endif %}
+                {% endif %}
+
+
+
+                <header class="section-heading">
+                    <h3>Customer Reviews </h3>
+                    <div>
+                        <span>Avarage Review:</span>
+                        <span class="rating-star text-warning">
+                            <i class="fas fa-star{% if product.avarage_review == 0.5 %}-half-alt {% endif %}"></i>
+                            <i
+                                class="fa{% if product.avarage_review < 1.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 1.5 %}-half-alt{% endif %}"></i>
+                            <i
+                                class="fa{% if product.avarage_review < 2.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 2.5 %}-half-alt{% endif %}"></i>
+                            <i
+                                class="fa{% if product.avarage_review < 3.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 3.5 %}-half-alt{% endif %}"></i>
+                            <i
+                                class="fa{% if product.avarage_review < 4.5 %}r{% else %}s{% endif %} fa-star{% if product.avarage_review == 4.5 %}-half-alt{% endif %}"></i>
+                        </span>
+                    </div>
+                </header>
+                <article class="box mb-3">
+                    {% for review in reviews %}
+                    <div class="mb-3">
+                        <div class="icontext w-100">
+                            <!-- <img src="./images/avatars/avatar1.jpg" class="img-xs icon rounded-circle"> -->
+                            <div class="text">
+                                <span class="date text-muted float-md-right">{{ review.modified_at }}</span>
+                                <h5 class="mb-1"> {{ review.user.full_name }}</h5>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="rating-star text-warning">
+                                <i class="fas fa-star{% if review.rating == 0.5 %}-half-alt {% endif %}"></i>
+                                <i class="fa{% if review.rating < 1.5 %}r{% else %}s{% endif %} fa-star{% if review.rating == 1.5 %}-half-alt{% endif %}"></i>
+                                <i class="fa{% if review.rating < 2.5 %}r{% else %}s{% endif %} fa-star{% if review.rating == 2.5 %}-half-alt{% endif %}"></i>
+                                <i class="fa{% if review.rating < 3.5 %}r{% else %}s{% endif %} fa-star{% if review.rating == 3.5 %}-half-alt{% endif %}"></i>
+                                <i class="fa{% if review.rating < 4.5 %}r{% else %}s{% endif %} fa-star{% if review.rating == 4.5 %}-half-alt{% endif %}"></i>
+                            </span>
+                        </div>
+                        <div class="mt-3">
+                            <h6>{{ review.subject }}</h6>
+                            <p>
+                                {{ review.review }}
+                            </p>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if user.is_authenticated and order_product %}
+    <script>
+        rate = document.querySelector(".rate")
+        radio = ""
+        let j = 1
+        for (let i = 0.5; i < 5.5; i += 0.5) {
+            let cl = ""
+            if (isFloat(i)) cl = `class="half"`
+            radio = `<input type="radio" name="rating" id="rating${j}" required value=${i}><label for="rating${j}" title="${i}" ${cl}></label>` + radio
+            j++
+        }
+
+        function isFloat(n) {
+            return n % 1 !== 0
+        }
+        rate.innerHTML = radio;
+    </script>
+{% endif %}
+
+<script>
+    console.log("{{ product_gallery }}")
+    $(document).ready(() => {
+            $(".thumb li a").click(function(e) {
+                e.preventDefault()
+                $(".main-image img").attr("src", $(this).attr("href"))
+            })
+        })
+</script>
+
+{% endblock content %}
